@@ -1,0 +1,43 @@
+Oscar Hernández
+35
+Av. Universidad
+Ciudad de México
+03020
+10A
+Narvarte
++52 55 1234 5678
+oscar.hernandez@example.mx
+http://www.oscarhernandez.mx
+
+Luis Ramírez
+29
+Calle Zapote
+Guadalajara
+44100
+5
+Santa Tere
+3312345678
+luis.ramirez@example.mx
+http://www.luisbear.mx
+
+Ramón Ayala
+75
+Calle Morelos
+Monterrey
+64000
+88
+Centro
++52 81 1234 5678
+ramon.ayala@example.mx
+https://www.ramonayala.mx
+
+Lionel Messi
+33
+Av. Revolución
+Puebla
+72550
+100
+Angelópolis
+2221234567
+lionel.messi@example.mx
+https://www.lionelmessi.org
