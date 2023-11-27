@@ -156,7 +156,7 @@ class Agenda:
 
     def cargar_contactos(self, current_user_email):
         self.lista_de_contactos = []
-        contactos_ref = db.collection(current_user_email)
+        contactos_ref = db.collection(current_user_email).document("AGENDA").collection("CONTACTOS")
         docs = contactos_ref.stream()
         for doc in docs:
             contacto = Contacto.from_dict(doc.to_dict())
@@ -167,15 +167,42 @@ class Agenda:
 
     def eliminar_contacto(self, contacto, current_user_email):
         if contacto.doc_id:
-            db.collection(current_user_email).document(contacto.doc_id).delete()
-            self.lista_de_contactos.remove(contacto)
+            db.collection(current_user_email).document("AGENDA").collection("CONTACTOS").document(contacto.doc_id).delete()
+            self.cargar_contactos(current_user_email)
 
     def buscar_contacto_por_telefono(self, numero):
         for contacto in self.lista_de_contactos:
             if contacto.numero == numero:
                 return contacto
         return None
+    
+    def correoContactoExiste(self, correo:str,current_user_email:str):
+        warnings.filterwarnings("ignore", category=UserWarning, module='google.cloud.firestore')
+        try:
+            contactos_ref = db.collection(current_user_email).document("AGENDA").collection("CONTACTOS")
+            query = contactos_ref.where('email', '==', correo).limit(1)
+            results = query.stream()
+            for result in results:
+                return True
+            return False
+        except Exception as e:
+            return False
 
+        
+    def buscar_contacto_por_correo(self, correo, current_user_email):
+        warnings.filterwarnings("ignore", category=UserWarning, module='google.cloud.firestore')
+        try:
+            contactos_ref = db.collection(current_user_email).document("AGENDA").collection("CONTACTOS")
+            query = contactos_ref.where('email', '==', correo).limit(1)
+            results = query.stream()
+            for result in results:
+                contact_result = Contacto.from_dict(result.to_dict())
+                contact_result.doc_id = str(result.id)
+                return contact_result
+            return None
+        except Exception as e:
+            print(f"Error al buscar contacto: {e}")
+            return None
     def buscar_contacto_por_nombre(self, nombre, current_user_email):
         warnings.filterwarnings("ignore", category=UserWarning, module='google.cloud.firestore')
         try:

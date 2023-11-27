@@ -47,7 +47,8 @@ def mostrar_informacion_contacto(contacto):
 def borrar_contacto(agenda, contacto, current_user_email):
     agenda.eliminar_contacto(contacto, current_user_email)
     print(f"Contacto '{contacto.nombre}' ha sido borrado.")
-
+def buscarContactoEmail(agenda:Agenda,correo:str,current_user_email:str):
+    return agenda.correoContactoExiste(correo,current_user_email)
 def main():
     current_user_id, current_user_email = None, None
     mi_agenda = Agenda(owner_id=current_user_id)
@@ -56,11 +57,11 @@ def main():
     while True:
         if not current_user_id:
             print("")
-            print("No hay ninguna sesión activa")
+            print("-------Bienvenido----------")
             print("1. Registrarse")
             print("2. Iniciar sesión ")            
             opcion_inicio = input("Seleccione una opción: ")
-            #opcion_inicio="1"
+            #opcion_inicio="2"
             print("*****************************************************")  
             
             while True:
@@ -87,21 +88,24 @@ def main():
                             print(f"Bienvenido {current_user_email}")
                             print("*****************************************************")  
                         else:
-                            print("Error al registrar el usuario. Intente de nuevo.")      
+                            print("Error al registrar el usuario. Intente de nuevo.") 
+                        input("Presione una tecla para continuar ..")     
 
                 if opcion_inicio == "2":
                     email = input("Por favor ingrese su email: ")
                     password = input("Por favor ingrese su contraseña: ")
-                    #email = "oscarrojasarriagax3@gmail.com"
+                    #email = "orojasa@toluca.tecnm.mx"
                     #password = "123456"
                     current_user_id, current_user_email = login_user(email, password)#se hace el login, donde se guarda el token y el correo con el que inicia sesión
                     print("*****************************************************")  
 
                     if current_user_id:
                         print(f"Bienvenido {current_user_email}")
-                        print("*****************************************************")  
+                        print("*****************************************************")
+                        input("Presione una tecla para continuar ..")
                     else:
                         print("Inicio de sesión fallido, intente de nuevo.")
+                        input("Presione una tecla para continuar ..")
                         continue #inicia una nueva iteración del ciclo que contiene la sentencia
                 break 
 
@@ -118,24 +122,29 @@ def main():
         print("")
 
         opcion = input("Seleccione una opción: ")
-        #opcion = "1"
+        #opcion = "5"
         print("")
         
         if opcion == "1":
             print("Ingrese los datos del nuevo contacto:")
             while True:
                 nombre = input("Nombre: ")
+                #nombre = "some name"
                 if not nombre.strip():
                     print("El nombre no puede estar vacío.")
+                    input("Presione una tecla para continuar ..")
                     continue
                 elif not all(x.isalpha() or x.isspace() for x in nombre):
                     print("El nombre solo puede contener letras y espacios.")
+                    input("Presione una tecla para continuar ..")
                     continue
                 break
             while True:
                 edad = input("Edad: ")
+                #edad="40"
                 if not edad.isdigit() or not 0 < int(edad) < 120:
                     print("La edad debe estar entre 1 y 119 años.")
+                    input("Presione una tecla para continuar ..")
                     continue
                 break
             while True:
@@ -143,6 +152,7 @@ def main():
                 #calle="calle ejemplo"
                 if not calle.strip():
                     print("La calle no puede estar vacía.")
+                    input("Presione una tecla para continuar ..")
                     continue
                 break
             while True:
@@ -150,6 +160,7 @@ def main():
                 #ciudad = "ciudad ejemplo"
                 if not ciudad.strip():
                     print("La ciudad no puede estar vacía.")
+                    input("Presione una tecla para continuar ..")
                     continue
                 break
             while True:
@@ -157,6 +168,7 @@ def main():
                 #codigo_postal = "12345"
                 if not re.match(r"^\d{5}$", codigo_postal):
                     print("El código postal debe tener 5 dígitos.")
+                    input("Presione una tecla para continuar ..")
                     continue
                 break
             while True:
@@ -164,6 +176,7 @@ def main():
                 #numero_exterior= "10"
                 if not numero_exterior.strip():
                     print("El número exterior no puede estar vacío.")
+                    input("Presione una tecla para continuar ..")
                     continue
                 break
             numero_interior = input("Número Interior (opcional): ")
@@ -173,6 +186,7 @@ def main():
                 #colonia = "Colonia Ejemplo"
                 if not colonia.strip():
                     print("La colonia no puede estar vacía.")
+                    input("Presione una tecla para continuar ..")
                     continue
                 break
             while True:
@@ -180,6 +194,7 @@ def main():
                 #numero = "1234567890"
                 if not re.match(r"^\+?[\d\s]{3,}$", numero):
                     print("El número de teléfono es inválido.")
+                    input("Presione una tecla para continuar ..")
                     continue
                 break
             while True:
@@ -187,20 +202,28 @@ def main():
                 #email = "correo@ejemplo.com"
                 if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
                     print("El correo electrónico no tiene un formato válido.")
+                    input("Presione una tecla para continuar ..")
                     continue
                 break
             while True:
                 pagina_web = input("Página Web (opcional): ")
+                #pagina_web="https://demo.bpmn.io/"
                 if pagina_web and not re.match(r"^https?:\/\/.*\..+$", pagina_web):
                     print("La página web tiene un formato inválido.")
+                    input("Presione una tecla para continuar ..")
                     continue
                 break
             edad = int(edad)#parsea la edad a numero
+            if buscarContactoEmail(mi_agenda,email,current_user_email):
+                    print("El correo de este contacto ya está registrado, cancelando...")
+                    input("Presione una tecla para continuar ..")
+                    continue
             nuevo_contacto = Contacto(nombre, edad, calle, ciudad, codigo_postal, numero_exterior, numero_interior, colonia, numero, email, pagina_web)
             guardar_contacto(mi_agenda, nuevo_contacto, current_user_email)
 
         elif opcion == "2":
             mostrar_agenda(mi_agenda)
+            input("Presione una tecla para continuar ..")
 
         elif opcion == "3":
             nombre = input("Ingrese el nombre a buscar: ")
@@ -209,6 +232,7 @@ def main():
                 mostrar_informacion_contacto(contacto_encontrado)
             else:
                 print("Contacto no encontrado.")
+            input("Presione una tecla para continuar ..")
 
         elif opcion == "4":
             numero = input("Ingrese el número de teléfono a buscar: ")
@@ -216,14 +240,31 @@ def main():
             if contacto_encontrado:
                 mostrar_informacion_contacto(contacto_encontrado)
             else:
-                print("Contacto no encontrado.")                
-        elif opcion == "5":
-            nombre = input("Ingrese el nombre del contacto a borrar: ")
-            contacto_a_borrar = mi_agenda.buscar_contacto_por_nombre(nombre, current_user_email)
-            if contacto_a_borrar:
-                borrar_contacto(mi_agenda, contacto_a_borrar, current_user_email)
-            else:
                 print("Contacto no encontrado.")
+            input("Presione una tecla para continuar ..")               
+        elif opcion == "5":
+            while True:
+                nombre = input("Ingrese el email del contacto a borrar: \nDigite \"2\" para cancelar operación\n>")
+                if nombre!="2":
+                    contacto_a_borrar = mi_agenda.buscar_contacto_por_correo(nombre, current_user_email)
+                    if contacto_a_borrar:
+                        while True:
+                            confirmacion=input("Contacto encontrado : "+contacto_a_borrar.nombre+","+contacto_a_borrar.email+"\nPor favor, confirme la eliminación (y/n)\n>")
+                            if confirmacion =="y" or confirmacion=="n":
+                                if confirmacion == "y":
+                                    borrar_contacto(mi_agenda, contacto_a_borrar, current_user_email)
+                                    print("Usuario eliminado con exito!")
+                                    input("Presione una tecla para continuar ..")
+                                break
+                            else:
+                                print("Opción no válida")
+                                input("Presione una tecla para continuar ..")
+                        break
+                    else:
+                        print("Contacto no encontrado.")
+                        input("Presione una tecla para continuar ..")
+                else:
+                    break
 
         elif opcion == "6":
             """print("Enviar una invitación para compartir tu agenda.")
@@ -245,6 +286,7 @@ def main():
 
         elif opcion == "8":
             print("Saliendo...")
+            input("Presione una tecla para continuar ..")
             break
         
         elif opcion == "9":
