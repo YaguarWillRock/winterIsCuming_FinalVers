@@ -67,21 +67,21 @@ def aceptar_invitacion(usuario, invitacion_id):
         print("La invitación no existe o ya fue procesada.")
         
 def login_user(email, password):
-    api_key = 'AIzaSyAfbXWM4PF78u7JkdfXpoBSjy3jKbXEErc'
-    url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}"
-    headers = {
+    api_key = 'AIzaSyAfbXWM4PF78u7JkdfXpoBSjy3jKbXEErc'#clave de seguridad dada por firebase
+    url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}"#endpoint de firebase para acceder a la base
+    headers = {#talves esto es para marcar que se trabajará con json
         "Content-Type": "application/json"
     }
-    data = {
+    data = {#aqui se construye el json
         "email": email,
         "password": password,
         "returnSecureToken": True
     }
-
-    response = requests.post(url, headers=headers, data=json.dumps(data))
-    if response.status_code == 200:
-        user_data = response.json()
-        return user_data['localId'], user_data['email']
+    #headers=headres, no tiene sentido, data=json.dombs, tampoco xd
+    response = requests.post(url, headers=headers, data=json.dumps(data))#se consume una API de firebase donde se mandan las credenciales
+    if response.status_code == 200:#codigo 200 web = ok, 400 = bad request (credenciales incorrectas)
+        user_data = response.json()#json que retorna el post
+        return user_data['localId'], user_data['email']#se regresan 2 variables, una contiene un token y otra el email con el que se inicia sesión
     else:
         print(f"Error de autenticación: {response.json()['error']['message']}")
         return None, None
