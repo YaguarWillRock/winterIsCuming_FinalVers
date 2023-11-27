@@ -59,20 +59,20 @@ def main():
             print("No hay ninguna sesión activa")
             print("1. Registrarse")
             print("2. Iniciar sesión ")            
-            #opcion_inicio = input("Seleccione una opción: ")
-            opcion_inicio="2"
+            opcion_inicio = input("Seleccione una opción: ")
+            #opcion_inicio="1"
             print("*****************************************************")  
             
             while True:
                 if opcion_inicio == "1":
                         email = input("Por favor ingrese su email: ")
-                        
+                        #email="orojasa@toluca.tecnm.mx"
                         if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
                             print("Error: el formato de correo electrónico no es válido.")
                             continue
                         
                         password = input("Por favor ingrese su contraseña: ")
-                        
+                        #password="123456"
                         if len(password) < 6:
                             print("Error: la contraseña debe tener al menos 6 caracteres.")
                             continue
@@ -80,21 +80,7 @@ def main():
                         if email_already_registered(email):
                             print("Error: el correo ya está registrado.")
                             break
-                        
-                        contact_info = {
-                            'nombre': input("Ingrese su nombre completo: "),
-                            'edad': input("Ingrese su edad: "),
-                            'calle': input("Ingrese su calle: "),
-                            'ciudad': input("Ingrese su ciudad: "),
-                            'codigo_postal': input("Ingrese su código postal: "),
-                            'numero_exterior': input("Ingrese su número exterior: "),
-                            'numero_interior': input("Ingrese su número interior: "),
-                            'colonia': input("Ingrese su colonia: "),
-                            'numero': input("Ingrese su número de teléfono: "),
-                            'email': email,
-                            'pagina_web': input("Ingrese su página web: ")
-                        }
-                        current_user_id, current_user_email = register_user(email, password, contact_info)
+                        current_user_id, current_user_email = register_user(email, password)
 
                         print("*****************************************************")  
                         if current_user_id:
@@ -104,10 +90,10 @@ def main():
                             print("Error al registrar el usuario. Intente de nuevo.")      
 
                 if opcion_inicio == "2":
-                    #email = input("Por favor ingrese su email: ")
-                    #password = input("Por favor ingrese su contraseña: ")
-                    email = "oscarrojasarriagax3@gmail.com"
-                    password = "123456"
+                    email = input("Por favor ingrese su email: ")
+                    password = input("Por favor ingrese su contraseña: ")
+                    #email = "oscarrojasarriagax3@gmail.com"
+                    #password = "123456"
                     current_user_id, current_user_email = login_user(email, password)#se hace el login, donde se guarda el token y el correo con el que inicia sesión
                     print("*****************************************************")  
 
@@ -131,15 +117,14 @@ def main():
         print("8. Salir")
         print("")
 
-        #opcion = input("Seleccione una opción: ")
-        opcion = "1"
+        opcion = input("Seleccione una opción: ")
+        #opcion = "1"
         print("")
         
         if opcion == "1":
             print("Ingrese los datos del nuevo contacto:")
             while True:
-                #nombre = input("Nombre: ")
-                nombre = "Oscar Rojas Arriaga"
+                nombre = input("Nombre: ")
                 if not nombre.strip():
                     print("El nombre no puede estar vacío.")
                     continue
@@ -148,66 +133,64 @@ def main():
                     continue
                 break
             while True:
-                #edad = input("Edad: ")
-                edad = "23"
+                edad = input("Edad: ")
                 if not edad.isdigit() or not 0 < int(edad) < 120:
                     print("La edad debe estar entre 1 y 119 años.")
                     continue
                 break
             while True:
-                #calle = input("Calle: ")
-                calle="calle ejemplo"
+                calle = input("Calle: ")
+                #calle="calle ejemplo"
                 if not calle.strip():
                     print("La calle no puede estar vacía.")
                     continue
                 break
             while True:
-                #ciudad = input("Ciudad: ")
-                ciudad = "ciudad ejemplo"
+                ciudad = input("Ciudad: ")
+                #ciudad = "ciudad ejemplo"
                 if not ciudad.strip():
                     print("La ciudad no puede estar vacía.")
                     continue
                 break
             while True:
-                #codigo_postal = input("Código Postal: ")
-                codigo_postal = "12345"
+                codigo_postal = input("Código Postal: ")
+                #codigo_postal = "12345"
                 if not re.match(r"^\d{5}$", codigo_postal):
                     print("El código postal debe tener 5 dígitos.")
                     continue
                 break
             while True:
-                #numero_exterior = input("Número Exterior: ")
-                numero_exterior= "10"
+                numero_exterior = input("Número Exterior: ")
+                #numero_exterior= "10"
                 if not numero_exterior.strip():
                     print("El número exterior no puede estar vacío.")
                     continue
                 break
-            #numero_interior = input("Número Interior (opcional): ")
-            numero_interior = "1"
+            numero_interior = input("Número Interior (opcional): ")
+            #numero_interior = "1"
             while True:
-                #colonia = input("Colonia: ")
-                colonia = "Colonia Ejemplo"
+                colonia = input("Colonia: ")
+                #colonia = "Colonia Ejemplo"
                 if not colonia.strip():
                     print("La colonia no puede estar vacía.")
                     continue
                 break
             while True:
-                #numero = input("Número de Teléfono: ")
-                numero = "1234567890"
+                numero = input("Número de Teléfono: ")
+                #numero = "1234567890"
                 if not re.match(r"^\+?[\d\s]{3,}$", numero):
                     print("El número de teléfono es inválido.")
                     continue
                 break
             while True:
-                #email = input("Correo Electrónico: ")
-                email = "correo@ejemplo.com"
+                email = input("Correo Electrónico: ")
+                #email = "correo@ejemplo.com"
                 if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
                     print("El correo electrónico no tiene un formato válido.")
                     continue
                 break
             while True:
-                #pagina_web = input("Página Web (opcional): ")
-                pagina_web = "https://web.whatsapp.com/"
+                pagina_web = input("Página Web (opcional): ")
                 if pagina_web and not re.match(r"^https?:\/\/.*\..+$", pagina_web):
                     print("La página web tiene un formato inválido.")
                     continue
