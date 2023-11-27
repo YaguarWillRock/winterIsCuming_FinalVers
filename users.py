@@ -67,26 +67,26 @@ def aceptar_invitacion(usuario, invitacion_id):
         print("La invitación no existe o ya fue procesada.")
         
 def login_user(email, password):
-    api_key = 'AIzaSyAfbXWM4PF78u7JkdfXpoBSjy3jKbXEErc'
-    url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}"
-    headers = {
+    api_key = 'AIzaSyAfbXWM4PF78u7JkdfXpoBSjy3jKbXEErc'#clave de seguridad dada por firebase
+    url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}"#endpoint de firebase para acceder a la base
+    headers = {#talves esto es para marcar que se trabajará con json
         "Content-Type": "application/json"
     }
-    data = {
+    data = {#aqui se construye el json
         "email": email,
         "password": password,
         "returnSecureToken": True
     }
-
-    response = requests.post(url, headers=headers, data=json.dumps(data))
-    if response.status_code == 200:
-        user_data = response.json()
-        return user_data['localId'], user_data['email']
+    #headers=headres, no tiene sentido, data=json.dombs, tampoco xd
+    response = requests.post(url, headers=headers, data=json.dumps(data))#se consume una API de firebase donde se mandan las credenciales
+    if response.status_code == 200:#codigo 200 web = ok, 400 = bad request (credenciales incorrectas)
+        user_data = response.json()#json que retorna el post
+        return user_data['localId'], user_data['email']#se regresan 2 variables, una contiene un token y otra el email con el que se inicia sesión
     else:
         print(f"Error de autenticación: {response.json()['error']['message']}")
         return None, None
     
-def register_user(email, password, contact_info):
+def register_user(email, password):
     try:
         auth.get_user_by_email(email)
         print("El correo ya está registrado.")
@@ -97,33 +97,9 @@ def register_user(email, password, contact_info):
             password=password
         )
         print(f"Usuario registrado con UID: {user.uid}")
-
-        coleccion = db.collection(email)
-        documentos = coleccion.limit(1).get()
-
-        if documentos:
-            print(f'La agenda de "{email}" ya existe.')
-        else:
-            print(f'La agenda de "{email}" no existe, se creará.')
-
-            campos_documento = {
-                'nombre': contact_info['nombre'],
-                'edad': contact_info['edad'],
-                'calle': contact_info['calle'],
-                'ciudad': contact_info['ciudad'],
-                'codigo_postal': contact_info['codigo_postal'],
-                'numero_exterior': contact_info['numero_exterior'],
-                'numero_interior': contact_info['numero_interior'],
-                'colonia': contact_info['colonia'],
-                'numero': contact_info['numero'],
-                'email': contact_info['email'],
-                'pagina_web': contact_info['pagina_web']
-            }
-            settings = {
-                'escritura': '0'
-            }
-            coleccion.add(campos_documento)
-            coleccion.add(settings)
+        defaultPermissions= {"LECTURA":True}
+        coleccion = db.collection(email).document("PERMISOS")
+        coleccion.set(defaultPermissions)
         return user.uid, email
     except auth.AuthError as e:
         print(f"Error al registrar el usuario: {e}")
