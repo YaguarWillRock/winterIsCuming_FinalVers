@@ -1,0 +1,14 @@
+{
+    "type": "service_account",
+    "project_id": "winter-is-coming-jdfr",
+    "private_key_id": "684c8fa8591743c8902048003b1bfc5999bea1cf",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCkpsJ5AsFmx2dJ\njR/JfSk7LNiAAdyVCSXgUYcfe+LL1QZd5E8557auV1vXgrARd5ZvJnMpJ0yxHB0S\nt55T7NMGwUnCVft/lKxFzNj/J26zHRSLGrvefBlhuuo52qAqUsrOF7zGtlarh/Km\nzXjKK0n3xER9gWoC4/C6oUqcdV2QqSEpvKp7SuB+UKfSN2fGhIfZBOO3YGyu8S5f\naVzd2XwVegIwSnjH4cDzM8BzF3V64fVG4cqEGe4CveYv90ZNCkJJDeI2px0NwTTt\n7KlFDLWkrVup1QIxEJywZOA0AUxjaDLNaH0ypDBzwL92fbOHH2PCCjjFYKBWlLef\npD4SPLGBAgMBAAECggEAHLVi5Tygwi30iXOM3lHvdXztRuyMLIRK0WEFwWyVb9r1\n4DslwT/wr1dWES6dSn5igYDfxYYvrhXrz86qUZHSfbQIC1V4o5clron4MA0NFTf1\n1AdWSIW020B/BJVlJdwHtoWXCcLTO9dZbNIYxI9lt0jGdGezN0vNNo1W+A7SwJ0l\nKmBZ+7nepOLx2HOnf4WCSgDmIP8eUBIlaNlgwrLqDn0xRt3orQ+a7xDcK/yqSe5k\n1PNhXW9SXkexh38B3lKe8wwRqmPJNTIJlgqpvW2vRM78Pz8KFlj/BqE0GJUp2TCx\nX789tMSGhjCoKQoVTcZO0a7egXVSoBFjB+Th6wf6TQKBgQDRRQ+FCGqBO9cgmCxE\nBtErbOsytRIYAoRlZEegy7FoneCf9fk5vsnwf33612tZhntvWbb2Ytf4ny1zoTqO\nr7H6MaE7XfzWnrN0nGdjZAg2mT37/rCozHzeCJ5x/90euejmZTVmvneFPhyK+eTr\nVHtJLJ3zDc7lDfB2Zx7mj77y9wKBgQDJaxVQA0o9o1rXjifoBK33U/2M2k+ZziGc\nqvS2lJg1fQmbIVsuWIzqUAEQNrpIv1tqobs7WFTZSC+xXx5dNfdQom9kL9kKFI/r\nBFYejzyfbbB0EpISbwPdIcbzr58MswGmO8hqnzpfeJmlNBKUcyusijp3T2YWqDw8\nLH4K6mBpRwKBgE+VPtitoasx8Zbgp/zaxtMH4c3v1EizNFxGrYK10+rgF1tdtIDE\nUJGYOnWZVKbAINLwwEakwlM3XZaamuVGZZ2rIBCupoeL5N0U2bCPixwQXOUnL1GS\nKm5Zwr/BuPqFYs+zb4J6LoPKYhpr/CWOhDAIuqyC9Mpg6bBteO/ffJNzAoGAA6z8\nmpU0yaMtiTmC6O0M77KMsgFZ6oikfGNyS9KyZGd/wWD+dP4QtEX5fv5AsAst8+g3\nroGSKtTyad4+g5z0gng0aDOnVlPBvJw7phsfFBnAWp3sJIH6JBL1uoS99lFd+lak\n9a0qN4vP4f/tRuBDL8bmAj9ksY0obECznCdi0wkCgYAq8bm79gLoGL7FjWkkq/1Z\nQqIIXxyY4WcINxLKsojmBbY84GUT/8ntMiOGg4d1j3CvXnzVo86EbySr5twiXWil\nQGmqJc/IEWcLnM8P9oRmvrntEhkZ0I0Hg0YoXzg87sq7sNVBy64/m3g3n3ca37u8\nK/R6xds97UAi92PK5NpTzQ==\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-oikz5@winter-is-coming-jdfr.iam.gserviceaccount.com",
+    "client_id": "111290245111161428721",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-oikz5%40winter-is-coming-jdfr.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }
+  
