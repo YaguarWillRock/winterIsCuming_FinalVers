@@ -120,9 +120,9 @@ def main():
                         continue
                 break 
         
-        print("modo admin")
-        agenda = input()
-        current_user.clonar_agenda(agenda)
+        #print("modo admin")
+        #agenda = input()
+        #current_user.clonar_agenda(agenda)
         print("1. Crear nuevo contacto")
         print("2. Mostrar Agenda")
         print("3. Buscar contacto por nombre")
@@ -277,16 +277,16 @@ def main():
             opcion = input("")
             if (opcion=="1"):
                 agenda = input("Ingrese el correo de la agenda que desea clonar:")
-                current_user.clonar_agenda(agenda)
+                current_user.clonar_agenda(agenda, current_user_email)
 
-        elif opcion == "7":
-            print("Responder a invitaciones pendientes.")
-            invitacion_id = input("ID de la invitación a responder: ")
-            respuesta = input("Aceptas la invitación? (s/n): ")
-            if respuesta.lower() == 's':
-                aceptar_invitacion(current_user, invitacion_id)
-            else:
-                print("Invitación declinada o ignorada.")
+        #elif opcion == "7":
+        #    print("Responder a invitaciones pendientes.")
+        #    invitacion_id = input("ID de la invitación a responder: ")
+        #    respuesta = input("Aceptas la invitación? (s/n): ")
+        #    if respuesta.lower() == 's':
+        #        aceptar_invitacion(current_user, invitacion_id)
+        #    else:
+        #        print("Invitación declinada o ignorada.")
 
         elif opcion == "7":
             print("Saliendo...")

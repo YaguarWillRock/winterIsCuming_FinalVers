@@ -2,6 +2,7 @@
 #users.py jdfr
 from firestore_db import db
 import firebase_admin
+from firebase_admin import auth, firestore, exceptions
 from google.cloud.firestore import FieldFilter
 import requests
 import json
@@ -25,13 +26,14 @@ class Usuario:
         for nombre_agenda in agendas:
             print(nombre_agenda)
     
-    def clonar_agenda(self, agenda):
+    def clonar_agenda(self, agenda, current_user):
         print("entró a la agenda de ",agenda)
         
         contactos = (db.collection(agenda).where(filter=FieldFilter("user_data", "!=", "1")).stream())
         
         for contacto in contactos:
-            print(f'Documento ID: {contacto.id} => Datos: {contacto.to_dict()}')
+            added = contacto.to_dict()
+            db.collection(current_user).add(added)
 
 def verify_user(token):
     decoded_token = auth.verify_id_token(token)
@@ -130,7 +132,7 @@ def register_user(email, password, contact_info):
                 'pagina_web': contact_info['pagina_web']
             }
             settings = {
-                'userdata':'1',
+                'user_data':'1',
                 'escritura': '0'
             }
             coleccion.document('user').set(campos_documento)
