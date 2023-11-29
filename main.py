@@ -141,6 +141,7 @@ def main():
         #print("6. Compartir mi agenda")
         print("6. Ver agendas de usuarios disponibles")
         print("7. Estado de la agenda (Private/Read/Read Write)")
+        print("8. Ver invitaciones")
         print("9. Cerrar sesión")
         #print("7. Responder a una invitación")
         print("0. Salir")
@@ -293,6 +294,17 @@ def main():
                 escritura = mi_user.get('escritura')
                 if escritura == "0":
                     print("Lo sentimos, la agenda de ese usuario se encuentra en modo privado, no se puede acceder a ella")
+                    print("¿Enviar invitación para que la coloque en modo Read?")
+                    print("1. Sí")
+                    print("2. No")
+                    e = input()
+                    if e == "1":
+                        cuerpo_invitacion = {
+                            'invitador':current_user_email,
+                            'invitacion':'1'
+                        }
+                        db.collection(mail).document('invitaciones').collection('invitaciones').add(cuerpo_invitacion)
+                        print("Solicitud enviada")
                 if escritura == "1" or escritura == "2":
                     contactos = (db.collection(mail).where(filter=FieldFilter("user_data", "==", "0")).stream())
                     for contacto in contactos:
@@ -312,10 +324,19 @@ def main():
                 agenda = input("Ingrese el correo de la agenda con la que desea hacer merge: ")
                 settings = db.collection(agenda).document('settings').get()  
                 escritura = settings.get('escritura')
-                if escritura == "0":
-                    print("Lo sentimos, la agenda de ese usuario se encuentra en modo privado, no se puede acceder a ella")
-                if escritura == "1":
-                    print("Lo sentimos, la agenda de ese usuario se encuentra en modo read únicamente, no se puede hacer merge con ella")
+                if escritura == "0" or escritura == "1":
+                    print("Lo sentimos, la agenda de ese usuario se encuentra en modo privado o en modo read only")
+                    print("¿Enviar invitación para que la coloque en modo Read/Write?")
+                    print("1. Sí")
+                    print("2. No")
+                    e = input()
+                    if e == "1":
+                        cuerpo_invitacion = {
+                            'invitador':current_user_email,
+                            'invitacion':'2'
+                        }
+                        db.collection(agenda).document('invitaciones').collection('invitaciones').add(cuerpo_invitacion)
+                        print("Solicitud enviada")
                 if escritura == "2":
                     current_user.clonar_agenda(agenda, current_user_email)
 
@@ -329,37 +350,20 @@ def main():
         #        print("Invitación declinada o ignorada.")
 
         elif opcion == "7":
-            mi_user = db.collection(current_user_email).document('settings').get()  
-            escritura = mi_user.get('escritura')
-            if escritura == "0":  
-                valor = "Privada"
-            if escritura == "1":   
-                valor = "Read"
-            if escritura == "2":   
-                valor = "Read/Write"
-            print(f"La agenda se encuentra en modo {valor}")
-            print(f"¿Cambiar?")
-            print(f"1. Sí")
-            print(f"2. No")
-            op = input()
-            if op == "1":
-                print("¿A qué modo la quiere colocar?")
-                print("1. Privada")
-                print("2. Read")
-                print("3. Read/Write")
-                op2 = input()
-                ref = db.collection(current_user_email).document('settings')
-                if op2 == "1":
-                    ref.update({'escritura': "0"})
-                    valor = "Privada"
-                if op2 == "2":   
-                    ref.update({'escritura': "1"})
-                    valor = "Read"
-                if op2 == "3":   
-                    ref.update({'escritura': "2"})
-                    valor = "Read/Write"
-                print(f"La agenda pasó a modo {valor}")
+            print("Estas son las agendas disponibles: ")
+            current_user.visualizar_agendas_disponibles()
+            
 
+        elif opcion == "8":
+            invitaciones = db.collection(current_user_email).document('invitaciones').collection('invitaciones').stream()
+            for invitacion in invitaciones:
+                print(f"Contacto que invita: {invitacion.get('invitador')}")
+                if invitacion.get('invitacion') == "1":
+                    print(f"Tipo de invitación: Read")
+                if invitacion.get('invitacion') == "2":
+                    print(f"Tipo de invitación: Read/Write")
+                print("")
+                
         elif opcion == "0":
             print("Saliendo...")
             break
@@ -368,7 +372,6 @@ def main():
             current_user_id, current_user_email = None, None
             print("Se ha cerrado la sesión.")
     
-
         else:
             print("Opción no válida. Intente nuevamente.")
 
