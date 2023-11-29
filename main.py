@@ -3,6 +3,12 @@ from firestore_db import Agenda, Contacto
 from users import aceptar_invitacion, Usuario, login_user, register_user, email_already_registered
 from google.cloud import firestore
 import re
+from firestore_db import db
+import firebase_admin
+from firebase_admin import auth, firestore, exceptions
+from google.cloud.firestore import FieldFilter
+import requests
+import json
 
 current_user = Usuario(user_id='id_del_usuario_actual', email='email_del_usuario_actual')
 # agenda = Agenda()
@@ -16,20 +22,23 @@ def guardar_contacto(agenda, contacto, current_user_email):
 
 
 
-def mostrar_agenda(agenda):
-    print("Contactos en la agenda:")
-    for contacto in agenda.obtener_contactos():
-        print(f"Nombre: {contacto.nombre}")
-        print(f"Edad: {contacto.edad}")
-        print(f"Calle: {contacto.calle}")
-        print(f"Ciudad: {contacto.ciudad}")
-        print(f"Código Postal: {contacto.codigo_postal}")
-        print(f"Número Exterior: {contacto.numero_exterior}")
-        print(f"Número Interior: {contacto.numero_interior}")
-        print(f"Colonia: {contacto.colonia}")
-        print(f"Número de Teléfono: {contacto.numero}")
-        print(f"Correo Electrónico: {contacto.email}")
-        print(f"Página Web: {contacto.pagina_web}")
+def mostrar_agenda(agenda, current_user_email):
+    print(f"Contactos en la agenda de {current_user_email}: ")
+    contactos = (db.collection(current_user_email).where(filter=FieldFilter("user_data", "==", "0")).stream())
+    for contacto in contactos:
+        #print(f"{contacto.id} => {contacto.to_dict()}")
+    #for contacto in agenda.obtener_contactos():
+        print(f"Nombre: {contacto.get('nombre')}")
+        print(f"Edad: {contacto.get('edad')}")
+        print(f"Email: {contacto.get('calle')}")
+        print(f"Ciudad: {contacto.get('ciudad')}")
+        print(f"Código Postal: {contacto.get('codigo_postal')}")
+        print(f"Número Exterior: {contacto.get('numero_exterior')}")
+        print(f"Número Interior: {contacto.get('numero_interior')}")
+        print(f"Colonia: {contacto.get('colonia')}")
+        print(f"Número de Teléfono: {contacto.get('numero')}")
+        print(f"Correo Electrónico: {contacto.get('email')}")
+        print(f"Página Web: {contacto.get('pagina_web')}")
         print("") 
 
 def mostrar_informacion_contacto(contacto):
@@ -238,7 +247,7 @@ def main():
             guardar_contacto(mi_agenda, nuevo_contacto, current_user_email)
 
         elif opcion == "2":
-            mostrar_agenda(mi_agenda)
+            mostrar_agenda(mi_agenda, current_user_email)
 
         elif opcion == "3":
             nombre = input("Ingrese el nombre a buscar: ")
@@ -271,12 +280,12 @@ def main():
             enviar_invitacion(agenda_id, current_user.user_id, receptor_email, nivel_de_acceso)"""
             print("Estas son las agendas disponibles: ")
             current_user.visualizar_agendas_disponibles()
-            print("¿Quiere clonar los contactos de una agenda a la suya?: ")
+            print("¿Quiere hacer un merge de los contactos de una agenda con la suya?: ")
             print("1) Sí")
             print("Otro) No")
             opcion = input("")
             if (opcion=="1"):
-                agenda = input("Ingrese el correo de la agenda que desea clonar:")
+                agenda = input("Ingrese el correo de la agenda con la que desea hacer merge:")
                 current_user.clonar_agenda(agenda, current_user_email)
 
         #elif opcion == "7":
