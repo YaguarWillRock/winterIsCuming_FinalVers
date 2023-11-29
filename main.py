@@ -308,7 +308,20 @@ def main():
             else:  
                 valor = "OFF"
             print(f"La agenda se encuentra en modo {valor}")
-            
+            print(f"¿Cambiar?")
+            print(f"1. Sí")
+            print(f"2. No")
+            op = input()
+            if op == "1":
+                ref = db.collection(current_user_email).document('settings')
+                if escritura == "1":
+                    ref.update({'escritura': "0"})
+                    valor = "OFF"
+                else:
+                    ref.update({'escritura': "1"})
+                    valor = "ON"
+                print(f"La agenda pasó a modo escritura {valor}")
+
         elif opcion == "0":
             print("Saliendo...")
             break
