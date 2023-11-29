@@ -140,6 +140,7 @@ def main():
         print("5. Borrar contacto")
         #print("6. Compartir mi agenda")
         print("6. Ver agendas de usuarios disponibles")
+        print("7. Estado de la agenda (Modo Escritura)")
         print("9. Cerrar sesión")
         #print("7. Responder a una invitación")
         print("0. Salir")
@@ -299,6 +300,15 @@ def main():
         #    else:
         #        print("Invitación declinada o ignorada.")
 
+        elif opcion == "7":
+            mi_user = db.collection(current_user_email).document('settings').get()  
+            escritura = mi_user.get('escritura')
+            if escritura == "1":  
+                valor = "ON"
+            else:  
+                valor = "OFF"
+            print(f"La agenda se encuentra en modo {valor}")
+            
         elif opcion == "0":
             print("Saliendo...")
             break
