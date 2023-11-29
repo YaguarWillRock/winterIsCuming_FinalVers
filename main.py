@@ -283,11 +283,28 @@ def main():
             enviar_invitacion(agenda_id, current_user.user_id, receptor_email, nivel_de_acceso)"""
             print("Estas son las agendas disponibles: ")
             current_user.visualizar_agendas_disponibles()
-            print("¿Quiere hacer un merge de los contactos de una agenda con la suya?: ")
-            print("1) Sí")
-            print("Otro) No")
+            print("1. Ver la agenda de alguien más ")
+            print("2. Hacer un merge de de otra agenda con la suya")
+            print("0. Salir")
             opcion = input("")
             if (opcion=="1"):
+                mail = input("Ingrese el correo de la agenda que desea ver:")
+ 
+                contactos = (db.collection(mail).where(filter=FieldFilter("user_data", "==", "0")).stream())
+                for contacto in contactos:
+                    print(f"Nombre: {contacto.get('nombre')}")
+                    print(f"Edad: {contacto.get('edad')}")
+                    print(f"Email: {contacto.get('calle')}")
+                    print(f"Ciudad: {contacto.get('ciudad')}")
+                    print(f"Código Postal: {contacto.get('codigo_postal')}")
+                    print(f"Número Exterior: {contacto.get('numero_exterior')}")
+                    print(f"Número Interior: {contacto.get('numero_interior')}")
+                    print(f"Colonia: {contacto.get('colonia')}")
+                    print(f"Número de Teléfono: {contacto.get('numero')}")
+                    print(f"Correo Electrónico: {contacto.get('email')}")
+                    print(f"Página Web: {contacto.get('pagina_web')}")
+                    print("") 
+            if (opcion=="2"):
                 agenda = input("Ingrese el correo de la agenda con la que desea hacer merge:")
                 current_user.clonar_agenda(agenda, current_user_email)
 
