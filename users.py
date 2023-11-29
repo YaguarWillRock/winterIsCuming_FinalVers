@@ -27,7 +27,7 @@ class Usuario:
             print(nombre_agenda)
     
     def clonar_agenda(self, agenda, current_user):
-        print("entró a la agenda de ",agenda)
+        print("Haciendo merge con la agenda de ",agenda)
         
         contactos = (db.collection(agenda).where(filter=FieldFilter("user_data", "!=", "1")).stream())
         
