@@ -56,7 +56,8 @@ def mostrar_informacion_contacto(contacto):
     print("")
 
 def borrar_contacto(agenda, contacto, current_user_email):
-    agenda.eliminar_contacto(contacto, current_user_email)
+    #agenda.eliminar_contacto(contacto, current_user_email)
+    db.collection(current_user_email).document("").delete()
     print(f"Contacto '{contacto.nombre}' ha sido borrado.")
 
 def main():
@@ -138,9 +139,10 @@ def main():
         print("4. Buscar contacto por teléfono")
         print("5. Borrar contacto")
         #print("6. Compartir mi agenda")
-        print("6. Ver agendas de usuarios disponibles.")
+        print("6. Ver agendas de usuarios disponibles")
+        print("9. Cerrar sesión")
         #print("7. Responder a una invitación")
-        print("7. Salir")
+        print("0. Salir")
         print("")
 
         opcion = input("Seleccione una opción: ")
@@ -297,7 +299,7 @@ def main():
         #    else:
         #        print("Invitación declinada o ignorada.")
 
-        elif opcion == "7":
+        elif opcion == "0":
             print("Saliendo...")
             break
         
