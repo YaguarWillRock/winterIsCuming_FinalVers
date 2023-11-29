@@ -2,8 +2,6 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
 import warnings
-import re
-
 
 cred = credentials.Certificate("keys.json")
 firebase_admin.initialize_app(cred)
@@ -58,12 +56,20 @@ class CorreoElectronico:
     def to_dict(self):
         return vars(self)
 
-class Contacto(Persona, Direccion, Telefono, CorreoElectronico):
-    def __init__(self, nombre,edad, calle, ciudad, codigo_postal, numero_exterior, numero_interior, colonia, numero, email, pagina_web, doc_id=None):
+class System:
+    def __init__(self, user_data):
+        self.user_data = user_data
+        
+    def to_dict(self):
+        return vars(self)
+    
+class Contacto(Persona, Direccion, Telefono, CorreoElectronico, System):
+    def __init__(self, nombre,edad, calle, ciudad, codigo_postal, numero_exterior, numero_interior, colonia, numero, email, pagina_web, user_data, doc_id=None):
         Persona.__init__(self, nombre, edad)
         Direccion.__init__(self, calle, ciudad, codigo_postal, numero_exterior, numero_interior, colonia)
         Telefono.__init__(self, numero)
         CorreoElectronico.__init__(self, email, pagina_web)
+        System.__init__(self, user_data)
         self.doc_id = doc_id 
         
     @staticmethod
@@ -134,7 +140,8 @@ class Contacto(Persona, Direccion, Telefono, CorreoElectronico):
             colonia=source['colonia'],
             numero=source['numero'],
             email=source['email'],
-            pagina_web=source['pagina_web']
+            pagina_web=source['pagina_web'],
+            user_data=source['user_data']
         )
         return contacto
 
@@ -199,3 +206,5 @@ class Agenda:
     
     def compartir_agenda(self, user_id, nivel_de_acceso):
         self.usuarios_con_acceso[user_id] = nivel_de_acceso
+    
+    

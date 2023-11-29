@@ -14,6 +14,8 @@ def guardar_contacto(agenda, contacto, current_user_email):
     except Exception as e:
         print(f"Ocurrió un error al guardar el contacto: {e}")
 
+
+
 def mostrar_agenda(agenda):
     print("Contactos en la agenda:")
     for contacto in agenda.obtener_contactos():
@@ -117,8 +119,10 @@ def main():
                         print("Inicio de sesión fallido, intente de nuevo.")
                         continue
                 break 
-
-        print("")
+        
+        print("modo admin")
+        agenda = input()
+        current_user.clonar_agenda(agenda)
         print("1. Crear nuevo contacto")
         print("2. Mostrar Agenda")
         print("3. Buscar contacto por nombre")
@@ -126,8 +130,8 @@ def main():
         print("5. Borrar contacto")
         #print("6. Compartir mi agenda")
         print("6. Ver agendas de usuarios disponibles.")
-        print("7. Responder a una invitación")
-        print("8. Salir")
+        #print("7. Responder a una invitación")
+        print("7. Salir")
         print("")
 
         opcion = input("Seleccione una opción: ")
@@ -227,10 +231,10 @@ def main():
             #     nuevo_contacto = Contacto(nombre, edad, calle, ciudad, codigo_postal, numero_exterior, numero_interior, colonia, numero, email, pagina_web)
             #     resultado = guardar_contacto(mi_agenda, nuevo_contacto, current_user_email)
             # else:
-            #     print("Los datos del contacto no son válidos.")            
-            
+            #     print("Los datos del contacto no son válidos.")     
+            user_data = "0"       
             edad = int(edad)
-            nuevo_contacto = Contacto(nombre, edad, calle, ciudad, codigo_postal, numero_exterior, numero_interior, colonia, numero, email, pagina_web)
+            nuevo_contacto = Contacto(nombre, edad, calle, ciudad, codigo_postal, numero_exterior, numero_interior, colonia, numero, email, pagina_web, user_data)
             guardar_contacto(mi_agenda, nuevo_contacto, current_user_email)
 
         elif opcion == "2":
@@ -267,6 +271,13 @@ def main():
             enviar_invitacion(agenda_id, current_user.user_id, receptor_email, nivel_de_acceso)"""
             print("Estas son las agendas disponibles: ")
             current_user.visualizar_agendas_disponibles()
+            print("¿Quiere clonar los contactos de una agenda a la suya?: ")
+            print("1) Sí")
+            print("Otro) No")
+            opcion = input("")
+            if (opcion=="1"):
+                agenda = input("Ingrese el correo de la agenda que desea clonar:")
+                current_user.clonar_agenda(agenda)
 
         elif opcion == "7":
             print("Responder a invitaciones pendientes.")
@@ -277,7 +288,7 @@ def main():
             else:
                 print("Invitación declinada o ignorada.")
 
-        elif opcion == "8":
+        elif opcion == "7":
             print("Saliendo...")
             break
         

@@ -1,7 +1,8 @@
 
 #users.py jdfr
-from firebase_admin import auth, firestore, exceptions
 from firestore_db import db
+import firebase_admin
+from google.cloud.firestore import FieldFilter
 import requests
 import json
 
@@ -19,10 +20,18 @@ class Usuario:
         }
         
     def visualizar_agendas_disponibles(self):
-        colecciones = [coleccion.id for coleccion in db.collections()]
-        print('Colecciones en la base de datos:')
-        for nombre_coleccion in colecciones:
-            print(nombre_coleccion)
+        agendas = [coleccion.id for coleccion in db.collections()]
+        print('Agendas en la base de datos:')
+        for nombre_agenda in agendas:
+            print(nombre_agenda)
+    
+    def clonar_agenda(self, agenda):
+        print("entró a la agenda de ",agenda)
+        
+        contactos = (db.collection(agenda).where(filter=FieldFilter("user_data", "!=", "1")).stream())
+        
+        for contacto in contactos:
+            print(f'Documento ID: {contacto.id} => Datos: {contacto.to_dict()}')
 
 def verify_user(token):
     decoded_token = auth.verify_id_token(token)
@@ -107,6 +116,7 @@ def register_user(email, password, contact_info):
             print(f'La agenda de "{email}" no existe, se creará.')
 
             campos_documento = {
+                'user_data':'1',
                 'nombre': contact_info['nombre'],
                 'edad': contact_info['edad'],
                 'calle': contact_info['calle'],
@@ -120,10 +130,11 @@ def register_user(email, password, contact_info):
                 'pagina_web': contact_info['pagina_web']
             }
             settings = {
+                'userdata':'1',
                 'escritura': '0'
             }
-            coleccion.add(campos_documento)
-            coleccion.add(settings)
+            coleccion.document('user').set(campos_documento)
+            coleccion.document('settings').set(settings)
         return user.uid, email
     except auth.AuthError as e:
         print(f"Error al registrar el usuario: {e}")
